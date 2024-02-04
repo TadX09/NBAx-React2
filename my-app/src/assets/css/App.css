@@ -1,0 +1,237 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  display: flex;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  position: fixed;
+  height: 50px;
+  width: 100%;
+  top: 0;
+  z-index: 99999999;
+}
+
+.content {
+  /* padding: 10px;
+  margin-top: 50px; */
+}
+.s-content {
+  padding: 10px;
+  margin-top: 50px;
+}
+.titleApp {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ff7b00;
+  margin: 10px;
+  margin-top: 20px;
+  margin-left: 7px;
+}
+
+.App-link {
+  color: #fb8d61;
+}
+
+.App-footer {
+  background-color: #282c34;
+  display: flex;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  position: fixed;
+  height: 50px;
+  width: 100%;
+  bottom: 0;
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+.d-none {
+  display: none;
+}
+.loadscreen {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+.loadscreen-load {
+  position: absolute;
+  width: 80px;
+}
+.nbax_logo_img {
+  width: 35px;
+  height: 35px;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+/* content */
+
+.ch-t-1 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.nbax_btn1 {
+  font-family: nbaxFont !important;
+  background: #363636;
+  color: white;
+  border-radius: 5px;
+  font-size: 9px;
+  margin: 2px;
+  padding: 2px;
+  padding-top: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  cursor: pointer;
+  border-color: #36363629;
+}
+.nbax-games-cont {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.nbax_pastgames_stats {
+  display: grid;
+  margin: 10px;
+  font-size: 15px;
+}
+.nbax-evaluator{
+  display: flex;
+  color: #04ff00;
+  font-size: 17px;
+  margin-left: 10px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+/* .nbax-past-games-cont{
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: auto;
+  overflow-x: auto;
+} */
+.nbax-game-card {
+  background-color: #363636;
+  color: white;
+  border-radius: 10px;
+  margin: 5px;
+  padding: 5px;
+  min-width: 250px;
+  min-height: 100px;
+}
+/* .nbax-past-game-card {
+  background-color: #363636;
+  color: white;
+  border-radius: 10px;
+  margin: 5px;
+  padding: 5px;
+  min-width: 150px;
+  min-height: 50px;
+} */
+.nbax-vs-teams {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  font-family: monospace;
+  font-size: 13px;
+}
+.nbax-logo-winlose {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  align-content: stretch;
+  align-items: center;
+  flex-direction: column;
+  font-size: 10px;
+  font-family: monospace;
+  font-weight: bold;
+}
+.nbax-scores {
+  font-size: 20px;
+  font-weight: 600;
+  font-family: monospace;
+}
+.nbax-dates {
+  margin: 5px;
+  font-family: monospace;
+}
+.nbax-buttons {
+  display: flex;
+  justify-content: flex-end;
+  background-color: #80808063;
+  margin-top: 5px;
+}
+.nbax_stats {
+  display: flex;
+}
+.table_tr_color {
+  background-color: #5f5f68;
+}
+.c_red {
+  background-color: red;
+  border-radius: 10px;
+}
+.c_red2 {
+  background-color: rgb(145, 0, 0);
+  border-radius: 10px;
+}
+.c_green {
+  background-color: green;
+  border-radius: 10px;
+}
+.c_green2 {
+  background-color: rgb(0, 73, 0);
+  border-radius: 10px;
+}
+.c_orange {
+  background-color: orangered;
+  border-radius: 10px;
+}
+.c_blue {
+  background-color: blue;
+  border-radius: 10px;
+}
+.c_blue2 {
+  background-color: rgb(39, 39, 197);
+  border-radius: 10px;
+}
+
+.nbax-menu {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.rw-widget-picker {
+  display: flex !important;
+  overflow: hidden;
+  min-height: 25px !important;
+  /* background-color: #fb8d61; */
+  border: #e8f0fe 1px solid !important;
+  border-radius: 4px;
+  outline: none;
+  grid-template: 1fr/1fr 1.9em;
+  width: 80px !important;
+  justify-content: end !important;
+}
+.rw-widget-input {
+  color: #ff7b00 !important;
+  font-weight: 600;
+  font-size: 10px;
+  background-color: #282c34 !important;
+  box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+  background-clip: padding-box;
+  width: 70px !important;
+}
