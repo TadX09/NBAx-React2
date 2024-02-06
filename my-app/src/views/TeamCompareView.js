@@ -42,17 +42,14 @@ import TOR from "../assets/img/logosNBA/tor";
 import UTA from "../assets/img/logosNBA/uta";
 import WAS from "../assets/img/logosNBA/was";
 import LoaderScreen from "./Controls/LoadScreen";
-//import Stats from "./Controls/Stats";
 import PastGamesStats from "./Controls/PastGamesStats";
-//import PastGamesStatsF from "./Controls/PastGamesStatsF";
-//import WinAndLosses from "./Controls/WinAndLosses";
 
 /**
  * Componente Base para comparar equipos
  * @component
  */
 
-const ACTUAL_SEASON = "2023";
+const ACTUAL_SEASON = "2024";
 const SEASONSYEARS = [
   "1989",
   "1990",
@@ -99,52 +96,13 @@ class TeamCompareView extends React.Component {
       mensaje: "",
       games: [],
       stats: [],
-      stats: null,
       isLoading: false,
       isLoading2: false,
-      date: new Date(),
-      modalVMOpen: false,
-      selectedGame: {},
-      past_games: {},
-      evalData: 0,
-      season: "2018",
+      date: new Date()
     };
   }
 
-  Load = (dataType, params) => {
-    this.setState({
-      isLoading: true,
-    });
-
-    if(params === undefined)
-    params ="{}";
-
-    callApi(
-      config.UrlApiProject +
-        "nbaX_api/updateData?dataName=" +
-        dataType +
-        "&params=" +
-        params,
-      "GET",
-      null
-    )
-      .then((result) => {
-        alert(result);
-        this.setState({
-          mensaje: result,
-          isLoading: false,
-        });
-      })
-      .catch((error) => {
-        // this.setState({ isLoading: false });
-        console.log("Error", error);
-        this.setState({
-          isLoading: false,
-        });
-      });
-  };
-
-  GetGames = (dataType, params, callback) => {
+  GetData = (dataType, params, callback) => {
     this.setState({
       isLoading: true,
     });
@@ -159,11 +117,18 @@ class TeamCompareView extends React.Component {
     )
       .then((result) => { 
         callback(result);
-        this.setState({
-          games: result,
-          isLoading: false,
-        });
-       
+        if(dataType === 'games_today'){
+          this.setState({
+            games: result,
+            isLoading: false,
+          });
+        } else if(dataType === 'stats')
+        {
+          this.setState({
+            stats: result,
+            isLoading: false,
+          });
+        }
       })
       .catch((error) => {
         // this.setState({ isLoading: false });
@@ -176,41 +141,17 @@ class TeamCompareView extends React.Component {
       });
   };
 
-  // GetPastGames = (dataType, params) => {
-  //   this.setState({
-  //     isLoading: true,
-  //   });
-  //   callApi(
-  //     config.UrlApiProject +
-  //       "nbaX_api/getData?dataName=" +
-  //       dataType +
-  //       "&params=" +
-  //       params,
-  //     "GET",
-  //     null
-  //   )
-  //     .then((result) => {
-  //       this.setState({
-  //         past_games: result,
-  //         isLoading: false,
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       // this.setState({ isLoading: false });
-  //       console.log("Error", error);
-  //       this.setState({
-  //         isLoading: false,
-  //       });
-  //     });
-  // };
-
-  GetDataWithParams = (dataType, params) => {
+  UpdateData = (dataType, params,callback) => {
     this.setState({
       isLoading: true,
     });
+  
+    if(params === undefined)
+    params ="{}";
+
     callApi(
       config.UrlApiProject +
-        "nbaX_api/updateDataWithParams?dataName=" +
+        "nbaX_api/updateData?dataName=" +
         dataType +
         "&params=" +
         params,
@@ -218,12 +159,17 @@ class TeamCompareView extends React.Component {
       null
     )
       .then((result) => {
-        this.setState({
-          games: result,
-          isLoading: false,
-        });
+        callback(result);
+        
+          this.setState({
+           
+            isLoading: false,
+          });
+         
       })
       .catch((error) => {
+        callback(error);
+     
         // this.setState({ isLoading: false });
         console.log("Error", error);
         this.setState({
@@ -262,7 +208,7 @@ class TeamCompareView extends React.Component {
       case "DET":
         logo = <DET size={40} />;
         break;
-      case "GSW":
+      case "GS":
         logo = <GSW size={40} />;
         break;
       case "HOU":
@@ -289,10 +235,10 @@ class TeamCompareView extends React.Component {
       case "MIN":
         logo = <MIN size={40} />;
         break;
-      case "NOP":
+      case "NO":
         logo = <NOP size={40} />;
         break;
-      case "NYK":
+      case "NY":
         logo = <NYK size={40} />;
         break;
       case "OKC":
@@ -304,7 +250,7 @@ class TeamCompareView extends React.Component {
       case "PHI":
         logo = <PHI size={40} />;
         break;
-      case "PHX":
+      case "PHO":
         logo = <PHX size={40} />;
         break;
       case "POR":
@@ -313,7 +259,7 @@ class TeamCompareView extends React.Component {
       case "SAC":
         logo = <SAC size={40} />;
         break;
-      case "SAS":
+      case "SA":
         logo = <SAS size={40} />;
         break;
       case "TOR":
@@ -329,244 +275,71 @@ class TeamCompareView extends React.Component {
     return logo;
   };
 
-  GetPastGames(dataType, params,callback) {
-    this.setState({
-      isLoading: true,
-    });
-    
-    callApi(
-      config.UrlApiProject +
-        "nbaX_api/getData?dataName=" +
-        dataType +
-        "&params=" +
-        params,
-      "GET",
-      null
-    )
-      .then((result) => {
-        console.log(result);
-        callback(JSON.parse(result));
-        this.setState({
-          stats: result,
-          isLoading: false,
-        });
-      })
-      .catch((error) => {
-        console.log("Error", error);
-        callback([]);
-        this.setState({
-          isLoading: false,
-        });
-      });
-
-  };
-
-
-  // showModal = () => {
-  //   this.setState({ modalVMOpen: true });
-  // };
-
-  // hideModal = () => {
-  //   this.setState({ modalVMOpen: false });
-  // };
-
-  // ShowMoreStats = (game) => {
-  //   let params = { team_1: game.home, team_2: game.visitor };
-  //   this.GetPastGames("game_past_stats", JSON.stringify(params));
-
-  //   // this.setState({ selectedGame: game });
-  //   // this.showModal();
-  // };
-  ReciveData = (data) => {
-    console.log(data);
-    this.setState({ evalData: data });
-  };
-
-  getAllgamesYearsAgo = (years) => {
-    let yearSeason = Number(ACTUAL_SEASON);
-    let limit = yearSeason - years;
-    while (yearSeason >= limit) {
-      let params = { season: limit };
-      this.GetDataWithParams("games", JSON.stringify(params));
-      limit++;
-    }
-  };
-
-  getAllPlayerStats = () => {
-    // All teams of NBA
-    let i = 1;
-    while (i <= 30) {
-      let params = { season: ACTUAL_SEASON, team_id: i };
-      this.GetDataWithParams("team_players_stats", JSON.stringify(params));
-      i++;
-    }
-  };
-
   onSelectDate = (data) => {
     this.setState({ games: [] });
-    let params = { date: getTodayFromDateObject(data) };
-    this.GetGames("games_today", JSON.stringify(params),(games)=>{
-      this.getStatsOfGames(games);
-    });
-
-    this.setState({ date: data });
+    this.GetGames(getTodayFromDateObject(this.state.date));
   };
 
-  onSelectSeason = (data) => {
-    this.setState({ games: [] });
-    let params = { date:  getTodayFromDateObject(this.state.date)};
-    this.GetGames("games_today", JSON.stringify(params),(games)=>{
-      this.getStatsOfGames(games);
+  LoadTeams=()=>{
+    let params = { season: ACTUAL_SEASON };
+    this.UpdateData("teams", JSON.stringify(params),(response)=>{
+      alert(response);
     });
-
-    this.setState({ season: data });
-    
   };
 
-  getGamesParamsArray =(games,season,actualSeason)=>{
-    let gamesParams = [];
-
-    games.forEach(game => {
-      let params = {  
-        game_id: game.id,   
-        team_1: game.homeShort,
-        team_2: game.visitorShort,
-        id_team_1: game.home_id,
-        id_team_2: game.visitor_id,
-        num_players: 5,
-        season: season,
-        actual_season: actualSeason
-      }
-      gamesParams.push(params);
-    });
-   
-
-    return gamesParams;
+  LoadGamesToday=()=>{
+    this.GetGames(getTodayFormatDate());
   };
 
-  getStatsOfGames = (games)=>{
-    let gamesParams = this.getGamesParamsArray(games,this.state.season,ACTUAL_SEASON);
-
-    this.GetPastGames("game_past_stats_array", JSON.stringify(gamesParams),(stats)=>{
-       // merge with games
-       let gamesMerge =[];
-
-       games.forEach(game => {
-            for (let i=0; i < stats.length; i++) {
-              if (stats[i].game_id === game.id) {
-                 let gameM = Object.assign(game, stats[i]);;
-                 gamesMerge.push(gameM);
-              }
-          }
-
-            this.setState({games:gamesMerge});
-       });
-
-      
+  GetGames =(date)=>{
+    let params = { date:date };
+    this.UpdateData("games_today", JSON.stringify(params),(response)=>{
+      this.GetData("games_today", JSON.stringify(params),(games)=>{
+        this.setState({ games, date:new Date()});
      });
-
-
-  };
-  componentDidMount() {
-    let params = { date: getTodayFormatDate() };
-    this.GetGames("games_today", JSON.stringify(params),(games)=>{
-     this.getStatsOfGames(games);
     });
-
+  
+    
   }
-  // componentDidUpdate(prevProps, prevState) {
-  //   // Hard for evaluation sheet
-  //   if (prevState.date !== this.state.date) {
-  //     var avgEval = parseFloat((100/this.state.games.length) * Number(localStorage.getItem('hits'))).toFixed(2);
-  //     this.setState({avgEvaluation:avgEval});
-  //   }
 
-  // }
+  // onSelectSeason = (data) => {
+  //   this.setState({ games: [] });
+  //   let params = { date:  getTodayFromDateObject(this.state.date)};
+  //   this.GetData("games_today", JSON.stringify(params),(games)=>{
+  //     this.getStatsOfGames(games);
+  //   });
 
-  // shouldComponentUpdate(prevProps, prevState){
-  //     if (prevState.isLoading !== this.state.isLoading) {
-  //   var avgEval = parseFloat((100/this.state.games.length) * Number(localStorage.getItem('hits'))).toFixed(2);
-  //   // this.setState({avgEvaluation:avgEval});
-  //     }
-  // }
+  //   this.setState({ season: data });
+    
+  // };
 
+  componentDidMount() {
+    this.LoadGamesToday();
+  }
+ 
   render() {
     let games = this.state.games;
-    // let past_games = this.state.past_games;
-    // let past_games = this.state.past_games.games;
-    // console.log("ACTUAL:",games ,"PAST:", past_games);
-
-    // const PastGamesComponent = (past_games !== undefined)?past_games.map((game) => (
-    //   <Col key={game.id}>
-    //     <Card className="nbax-past-game-card">
-    //       <Card.Header></Card.Header>
-    //       <Card.Body>
-    //         <Card.Title>
-    //           <div className="nbax-vs-teams">
-    //             {this.GetLogo(game.homeShort)} &nbsp; {game.home_team_score} -{" "}
-    //             {game.visitor_team_score} &nbsp;
-    //             {this.GetLogo(game.visitorShort)}
-    //           </div>
-    //           <div className="nbax-dates">{game.date}</div>
-    //         </Card.Title>
-    //         <Card.Text style={{ backgroundColor: "#3c3c3c" }}></Card.Text>
-    //       </Card.Body>
-    //     </Card>
-    //   </Col>
-    // )):"";
-
-    // const ModalDemo = () => (
-    //   <Modal
-    //     show={this.state.modalVMOpen}
-    //     size="lg"
-    //     aria-labelledby="contained-modal-title-vcenter"
-    //     centered
-    //   >
-    //     <Modal.Header closeButton>
-    //       <Modal.Title id="contained-modal-title-vcenter">
-    //         <div className="nbax-vs-teams">
-    //           {this.GetLogo(this.state.selectedGame.homeShort)} &nbsp;{" "}
-    //           <h4>
-    //             {" "}
-    //             {this.state.selectedGame.home} Vs{" "}
-    //             {this.state.selectedGame.visitor} &nbsp;
-    //           </h4>
-    //           {this.GetLogo(this.state.selectedGame.visitorShort)}
-    //         </div>
-    //       </Modal.Title>
-    //     </Modal.Header>
-    //     <Modal.Body>
-    //       {/* <Row className="nbax-past-games-cont">{PastGamesComponent}</Row> */}
-
-    //     </Modal.Body>
-    //     <Modal.Footer>
-    //       <Button className="nbax_btn1" onClick={this.hideModal}>
-    //         Close
-    //       </Button>
-    //     </Modal.Footer>
-    //   </Modal>
-    // );
 
     const GamesComponent = games.map((game) => (
-      <Col key={game.id}>
+      <Col key={game.GameID}>
         <Card className="nbax-game-card">
           <Card.Header></Card.Header>
           <Card.Body>
             <Card.Title>
               <div style={{ fontFamily: "monospace", fontSize: "9px" }}>
-                {game.id}
+                {game.GameID}
               </div>
               <div className="nbax-vs-teams">
                 <div className="nbax-logo-winlose">
-                  {this.GetLogo(game.homeShort)}
+                  {this.GetLogo(game.HomeTeam)}
                   {/* <WinAndLosses
                     teamName={game.homeShort}
                     season={ACTUAL_SEASON}
                   /> */}
                 </div>
-                &nbsp; {game.home} Vs {game.visitor} &nbsp;
+                &nbsp; {game.HomeTeam} Vs {game.AwayTeam} &nbsp;
                 <div className="nbax-logo-winlose">
-                  {this.GetLogo(game.visitorShort)}
+                  {this.GetLogo(game.AwayTeam)}
                   {/* <WinAndLosses
                     teamName={game.visitorShort}
                     season={ACTUAL_SEASON}
@@ -574,11 +347,11 @@ class TeamCompareView extends React.Component {
                 </div>
               </div>
               <div className="nbax-scores">
-                {game.home_team_score > 0 ? game.home_team_score : ""} -{" "}
-                {game.visitor_team_score > 0 ? game.visitor_team_score : ""}
+                {game.HomeTeamScore > 0 ? game.HomeTeamScore : ""} -{" "}
+                {game.AwayTeamScore > 0 ? game.AwayTeamScore : ""}
               </div>
               <div className="nbax-dates">
-                {game.date} &nbsp;&nbsp;| &nbsp;&nbsp;{game.status}
+                {game.DateTime} &nbsp;&nbsp;| &nbsp;&nbsp;{game.Status}
               </div>
             </Card.Title>
             <Card.Text style={{ backgroundColor: "#3c3c3c" }}></Card.Text>
@@ -590,7 +363,7 @@ class TeamCompareView extends React.Component {
             <div className="nbax_pastgames_stats">
             
               {/* <PastGamesStatsF game={game} season={this.state.season} actualSeason ={ACTUAL_SEASON}/> */}
-              <PastGamesStats
+              {/* <PastGamesStats
                 total_games_count={games.length}
                 h_score={game.home_team_score}
                 v_score={game.visitor_team_score}
@@ -610,7 +383,7 @@ class TeamCompareView extends React.Component {
                 percentage_winst2_ppts_index ={game.percentage_winst2_ppts_index}
                 team1_last_win ={game.team1_last_win}
                 team2_last_win ={game.team2_last_win}
-              />
+              /> */}
             </div>
             {/* <div className="nbax-buttons">
               <Button
@@ -641,7 +414,7 @@ class TeamCompareView extends React.Component {
                   <div className="nbax-menu">
         
                     <Button
-                      onClick={() => this.Load("teams")}
+                      onClick={() => this.LoadTeams()}
                       className="nbax_btn1"
                     >
                       Update Teams
@@ -650,25 +423,13 @@ class TeamCompareView extends React.Component {
                     
                     <Button
                       onClick={() => {
-                        let params = { date: getTodayFormatDate() };
-                        this.GetGames("games_today", JSON.stringify(params),(games)=>{
-                          this.getStatsOfGames(games);
-                        });
-                        this.setState({ date: new Date() });
+                       this.LoadGamesToday()
                       }}
                       className="nbax_btn1"
                     >
                       Get Today's Games
                     </Button>
-                   
-                    {/* <Button
-                      onClick={() => {
-                        this.getAllPlayerStats();
-                      }}
-                      className="nbax_btn1"
-                    >
-                      Get Players Stats all teams
-                    </Button> */}
+
                     <DatePicker
                       value={this.state.date}
                       onSelect={this.onSelectDate}
