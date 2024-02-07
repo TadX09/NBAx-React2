@@ -235,3 +235,21 @@
   background-clip: padding-box;
   width: 70px !important;
 }
+
+/* Table Generate css */
+
+      .tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;}
+.tg td{background-color:#fff;border-color:#ccc;border-style:dotted;border-width:1px;color:#333;
+  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{background-color:#f0f0f0;border-color:#ccc;border-style:none;border-width:1px;color:#333;
+  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-4hcd{background-color:#303030;border-color:#858282;color:#ffffff;font-family:Tahoma, Geneva, sans-serif !important;
+  font-size:14px;text-align:left;vertical-align:top}
+.tg .tg-a4lg{background-color: #616060;
+  border-color: #c0c0c0;
+  color: #ffffff;
+  font-family: Tahoma, Geneva, sans-serif !important;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: left;
+  vertical-align: top;}

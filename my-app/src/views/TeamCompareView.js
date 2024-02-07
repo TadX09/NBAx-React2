@@ -42,7 +42,7 @@ import TOR from "../assets/img/logosNBA/tor";
 import UTA from "../assets/img/logosNBA/uta";
 import WAS from "../assets/img/logosNBA/was";
 import LoaderScreen from "./Controls/LoadScreen";
-import PastGamesStats from "./Controls/PastGamesStats";
+import Stats from "./Controls/Stats";
 
 /**
  * Componente Base para comparar equipos
@@ -94,8 +94,7 @@ class TeamCompareView extends React.Component {
 
     this.state = {
       mensaje: "",
-      games: [],
-      stats: [],
+      gamesArr: [],
       isLoading: false,
       isLoading2: false,
       date: new Date()
@@ -295,11 +294,28 @@ class TeamCompareView extends React.Component {
     let params = { date:date };
     this.UpdateData("games_today", JSON.stringify(params),(response)=>{
       this.GetData("games_today", JSON.stringify(params),(games)=>{
-        this.setState({ games, date:new Date()});
+        // Get Stats 
+          let params ={games}
+          this.GetData("stats", JSON.stringify(params),(stats)=>{
+              // merge with games
+            let gamesMerge =[];
+            games.forEach(game => {
+              for (let i=0; i < stats.length; i++) {
+              if (stats[i].GameID === game.GameID) {
+                 let gameM = {game:game,stats:stats[i].Stats}
+                 gamesMerge.push(gameM);
+              }
+              }
+            });
+
+           
+          this.setState({ gamesArr:gamesMerge, date:new Date()});
+
+          
      });
-    });
-  
-    
+
+    }); 
+  }); 
   }
 
   // onSelectSeason = (data) => {
@@ -318,28 +334,28 @@ class TeamCompareView extends React.Component {
   }
  
   render() {
-    let games = this.state.games;
+    let games = this.state.gamesArr;
 
-    const GamesComponent = games.map((game) => (
-      <Col key={game.GameID}>
+    const GamesComponent = games.map((obj) => (
+      <Col key={obj.game.GameID}>
         <Card className="nbax-game-card">
           <Card.Header></Card.Header>
           <Card.Body>
             <Card.Title>
               <div style={{ fontFamily: "monospace", fontSize: "9px" }}>
-                {game.GameID}
+                {obj.game.GameID}
               </div>
               <div className="nbax-vs-teams">
                 <div className="nbax-logo-winlose">
-                  {this.GetLogo(game.HomeTeam)}
+                  {this.GetLogo(obj.game.HomeTeam)}
                   {/* <WinAndLosses
                     teamName={game.homeShort}
                     season={ACTUAL_SEASON}
                   /> */}
                 </div>
-                &nbsp; {game.HomeTeam} Vs {game.AwayTeam} &nbsp;
+                &nbsp; {obj.game.HomeTeam} Vs {obj.game.AwayTeam} &nbsp;
                 <div className="nbax-logo-winlose">
-                  {this.GetLogo(game.AwayTeam)}
+                  {this.GetLogo(obj.game.AwayTeam)}
                   {/* <WinAndLosses
                     teamName={game.visitorShort}
                     season={ACTUAL_SEASON}
@@ -347,52 +363,18 @@ class TeamCompareView extends React.Component {
                 </div>
               </div>
               <div className="nbax-scores">
-                {game.HomeTeamScore > 0 ? game.HomeTeamScore : ""} -{" "}
-                {game.AwayTeamScore > 0 ? game.AwayTeamScore : ""}
+                {obj.game.HomeTeamScore > 0 ? obj.game.HomeTeamScore : ""} -{" "}
+                {obj.game.AwayTeamScore > 0 ? obj.game.AwayTeamScore : ""}
               </div>
               <div className="nbax-dates">
-                {game.DateTime} &nbsp;&nbsp;| &nbsp;&nbsp;{game.Status}
+                {obj.game.DateTime} &nbsp;&nbsp;| &nbsp;&nbsp;{obj.game.Status}
               </div>
             </Card.Title>
             <Card.Text style={{ backgroundColor: "#3c3c3c" }}></Card.Text>
-            {/* <div className="nbax_stats">
-              <Stats teamName={game.homeShort} season={this.state.season} />
-              <Stats teamName={game.visitorShort} season={this.state.season} />
-            </div> */}
-            <hr />
-            <div className="nbax_pastgames_stats">
-            
-              {/* <PastGamesStatsF game={game} season={this.state.season} actualSeason ={ACTUAL_SEASON}/> */}
-              {/* <PastGamesStats
-                total_games_count={games.length}
-                h_score={game.home_team_score}
-                v_score={game.visitor_team_score}
-                teamLongName1={game.home}
-                teamName1={game.homeShort}
-                teamLongName2={game.visitor}
-                teamName2={game.visitorShort}
-                id_team_1={game.home_id}
-                id_team_2={game.visitor_id}
-                sendData={this.ReciveData}
-                season ={this.state.season}
-                actual_season ={ACTUAL_SEASON}
-                display_lw  = { (getTodayFromDateObject(this.state.date) === getTodayFormatDate() || getTodayFromDateObject(this.state.date) === getTomorrow())?1:0}
-                percentage_wins_t1 ={game.percentage_wins_t1}
-                percentage_wins_t2 ={game.percentage_wins_t2}
-                percentage_winst1_ppts_index ={game.percentage_winst1_ppts_index}
-                percentage_winst2_ppts_index ={game.percentage_winst2_ppts_index}
-                team1_last_win ={game.team1_last_win}
-                team2_last_win ={game.team2_last_win}
-              /> */}
-            </div>
-            {/* <div className="nbax-buttons">
-              <Button
-                onClick={() => this.ShowMoreStats(game)}
-                className="nbax_btn1"
-              >
-                View More Stats
-              </Button>
-            </div> */}
+            <div className="nbax_stats">
+              <Stats stats={obj.stats}/>
+            </div> 
+        
           </Card.Body>
         </Card>
       </Col>

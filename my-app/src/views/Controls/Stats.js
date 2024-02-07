@@ -14,96 +14,83 @@ class Stats extends React.Component {
     super(props);
 
     this.state = {
-      stats: {},
-      isLoading: false,
-      
+      stats: this.props.stats,
     };
   }
 
-  GetStats = (dataType, params) => {
-    this.setState({
-      isLoading: true,
-    });
-    callApi(
-      config.UrlApiProject +
-        "nbaX_api/getData?dataName=" +
-        dataType +
-        "&params=" +
-        params,
-      "GET",
-      null
-    )
-      .then((result) => {
-
-        console.log(result);
-        this.setState({
-          stats:result,
-          isLoading: false,
-        });
-      })
-      .catch((error) => {
-        console.log("Error", error);
-        this.setState({
-          isLoading: false,
-        });
-      });
-  };
-
   componentDidMount() {
-    const teamName = this.props.teamName
-    const season = this.props.season
-
-    let params= { name: teamName , season: season};
-    this.GetStats("game_stats", JSON.stringify(params));
+   
   }
 
   render() {
     const stats = this.state.stats;
+
+    // Calcula Totales
+    //Equipo Home
+    let teamHome = stats[0].Team;
+    let totaleFGHome = stats[0].eFG + stats[2].eFG;
+    let totalppTsHome = stats[0].ppTs + stats[2].ppTs;
+    let totalPFHome = stats[0].PF + stats[2].PF;
+
+    //Equipo Away
+    let teamAway = stats[1].Team;
+    let totaleFGAway = stats[1].eFG + stats[3].eFG;
+    let totalppTSAway = stats[1].ppTs + stats[3].ppTs;
+    let totalPFAway = stats[1].PF + stats[3].PF;
+
+    const StatsComponentTable = stats.map((stat) => (
+      <tr>
+      <td className="tg-4hcd">{stat.Team}</td>
+      <td className="tg-4hcd">{stat.Title}</td>
+      <td className="tg-4hcd">{stat.eFG}</td>
+      <td className="tg-4hcd">{stat.ppTs}</td>
+      <td className="tg-4hcd">{stat.PF}</td>
+    </tr>
+    ));
+      
     return (
-      <div>
-       <table>
-		<tbody>
-			<tr>
-				<td>Avg Points Dif.</td>
-				<td>{stats.avg_pofD}</td>
-			</tr>
-			<tr className="table_tr_color">
-				<td>Wins</td>
-				<td className={(stats.percentage_wins < 50)?'c_orange':'none'}>{stats.percentage_wins}%</td>
-			</tr>
-			<tr>
-				<td>TP Home</td>
-				<td>{stats.avg_total_points_home}</td>
-			</tr>
-			<tr className="table_tr_color" >
-				<td>TP Visitor</td>
-				<td>{stats.avg_total_points_visitor}</td>
-			</tr>
-			<tr>
-				<td>TP</td>
-				<td>{stats.avg_total_points}</td>
-			</tr>
-			<tr className="table_tr_color">
-				<td>Is Par Game</td>
-				<td>{stats.percentage_isParGame}%</td>
-			</tr>
-			<tr>
-				<td>LorW Past Game</td>
-				<td className={(stats.lw_past_game == 0)?'c_red':'c_green'}>{(stats.lw_past_game == 0)?'Lost':'Win'}</td>
-			</tr>
-			<tr className="table_tr_color">
-				<td>TP Team</td>
-				<td>{stats.avg_team_points}</td>
-			</tr>
-			<tr>
-				<td>Is Par Team</td>
-				<td>{stats.percentage_isParTeam}%</td>
-			</tr>
-		</tbody>
-	</table>
-       
-      </div>
-    );
+    <div>
+
+      <table className="tg">
+      <thead>
+        <tr>
+          <th className="tg-a4lg">Team</th>
+          <th className="tg-a4lg">Title</th>
+          <th className="tg-a4lg">eFG</th>
+          <th className="tg-a4lg">ppTs</th>
+          <th className="tg-a4lg">PF</th>
+        </tr>
+      </thead>
+      <tbody>
+        {StatsComponentTable}
+      </tbody>
+      </table>
+      <hr />
+      <table className="tg" style={{display:"inline"}}>
+      <thead>
+        <tr>
+        <th class="tg-a4lg">Team</th>
+        <th class="tg-a4lg">Total eFg</th>
+        <th class="tg-a4lg">Total ppTs</th>
+        <th class="tg-a4lg">Total PF</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td class="tg-4hcd" style={{fontSize:"16px",fontWeight:"bold"}}>{teamHome}</td>
+        <td class="tg-4hcd" style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totaleFGHome).toFixed(4)}</td>
+        <td class="tg-4hcd"style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totalppTsHome).toFixed(4)}</td>
+        <td class="tg-4hcd"style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totalPFHome).toFixed(4)}</td>
+      </tr>
+      <tr>
+        <td class="tg-4hcd"style={{fontSize:"16px",fontWeight:"bold"}}>{teamAway}</td>
+        <td class="tg-4hcd"style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totaleFGAway).toFixed(4)}</td>
+        <td class="tg-4hcd"style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totalppTSAway).toFixed(4)}</td>
+        <td class="tg-4hcd"style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totalPFAway).toFixed(4)}</td>
+      </tr>
+      </tbody>
+      </table>
+    </div>);
   }
 }
 export default Stats;
