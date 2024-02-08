@@ -78,15 +78,15 @@ class Stats extends React.Component {
       <tbody>
       <tr>
         <td class="tg-4hcd" style={{fontSize:"16px",fontWeight:"bold"}}>{teamHome}</td>
-        <td class="tg-4hcd" style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totaleFGHome).toFixed(4)}</td>
-        <td class="tg-4hcd"style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totalppTsHome).toFixed(4)}</td>
-        <td class="tg-4hcd"style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totalPFHome).toFixed(4)}</td>
+        <td class={ totaleFGHome > totaleFGAway ? "c_green tg-4hcd": "c_red tg-4hcd"} style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totaleFGHome).toFixed(4)}</td>
+        <td class={ totalppTsHome > totalppTSAway ? "c_green tg-4hcd": "c_red tg-4hcd"} style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totalppTsHome).toFixed(4)}</td>
+        <td class={ totalPFHome > totalPFAway ? "c_green tg-4hcd": "c_red tg-4hcd"} style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totalPFHome).toFixed(4)}</td>
       </tr>
       <tr>
         <td class="tg-4hcd"style={{fontSize:"16px",fontWeight:"bold"}}>{teamAway}</td>
-        <td class="tg-4hcd"style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totaleFGAway).toFixed(4)}</td>
-        <td class="tg-4hcd"style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totalppTSAway).toFixed(4)}</td>
-        <td class="tg-4hcd"style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totalPFAway).toFixed(4)}</td>
+        <td class={ totaleFGHome < totaleFGAway ? "c_green tg-4hcd": "c_red tg-4hcd"} style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totaleFGAway).toFixed(4)}</td>
+        <td class={ totalppTsHome < totalppTSAway ? "c_green tg-4hcd": "c_red tg-4hcd"} style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totalppTSAway).toFixed(4)}</td>
+        <td class={ totalPFHome < totalPFAway ? "c_green tg-4hcd": "c_red tg-4hcd"} style={{fontSize:"16px",fontWeight:"bold"}}>{Number(totalPFAway).toFixed(4)}</td>
       </tr>
       </tbody>
       </table>

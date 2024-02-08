@@ -276,7 +276,9 @@ class TeamCompareView extends React.Component {
 
   onSelectDate = (data) => {
     this.setState({ games: [] });
-    this.GetGames(getTodayFromDateObject(this.state.date));
+    this.GetGames(getTodayFromDateObject(data));
+
+    this.setState({ date:data});
   };
 
   LoadTeams=()=>{
@@ -309,7 +311,7 @@ class TeamCompareView extends React.Component {
             });
 
            
-          this.setState({ gamesArr:gamesMerge, date:new Date()});
+          this.setState({ gamesArr:gamesMerge});
 
           
      });
