@@ -43,6 +43,7 @@ import UTA from "../assets/img/logosNBA/uta";
 import WAS from "../assets/img/logosNBA/was";
 import LoaderScreen from "./Controls/LoadScreen";
 import Stats from "./Controls/Stats";
+import WinAndLosses from "./Controls/WinAndLosses";
 
 /**
  * Componente Base para comparar equipos
@@ -304,13 +305,13 @@ class TeamCompareView extends React.Component {
             games.forEach(game => {
               for (let i=0; i < stats.length; i++) {
               if (stats[i].GameID === game.GameID) {
-                 let gameM = {game:game,stats:stats[i].Stats}
+                 let gameM = {game:game,stats:stats[i].Stats,winAndLosses:stats[i].WinAndLosses}
                  gamesMerge.push(gameM);
               }
               }
             });
 
-           
+           console.log(gamesMerge);
           this.setState({ gamesArr:gamesMerge});
 
           
@@ -350,18 +351,16 @@ class TeamCompareView extends React.Component {
               <div className="nbax-vs-teams">
                 <div className="nbax-logo-winlose">
                   {this.GetLogo(obj.game.HomeTeam)}
-                  {/* <WinAndLosses
-                    teamName={game.homeShort}
-                    season={ACTUAL_SEASON}
-                  /> */}
+                   <WinAndLosses
+                    winsLosses={obj.winAndLosses.HomeTeam[0]}
+                  />
                 </div>
                 &nbsp; {obj.game.HomeTeam} Vs {obj.game.AwayTeam} &nbsp;
                 <div className="nbax-logo-winlose">
                   {this.GetLogo(obj.game.AwayTeam)}
-                  {/* <WinAndLosses
-                    teamName={game.visitorShort}
-                    season={ACTUAL_SEASON}
-                  /> */}
+                  <WinAndLosses
+                    winsLosses={obj.winAndLosses.AwayTeam[0]}
+                  />
                 </div>
               </div>
               <div className="nbax-scores">

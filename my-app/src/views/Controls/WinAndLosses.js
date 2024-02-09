@@ -11,50 +11,17 @@ class WinAndLosses extends React.Component {
     super(props);
 
     this.state = {
-      stats: {},
-      isLoading: false,
-      winsLosses: [],
+      winsLosses:this.props.winsLosses,
     };
   }
 
-  GetWinsAndLosses = (dataType, params) => {
-    this.setState({
-      isLoading: true,
-    });
-    callApi(
-      config.UrlApiProject +
-        "nbaX_api/getData?dataName=" +
-        dataType +
-        "&params=" +
-        params,
-      "GET",
-      null
-    )
-      .then((result) => {
-        console.log(result);
-        this.setState({
-          winsLosses: result,
-          isLoading: false,
-        });
-      })
-      .catch((error) => {
-        console.log("Error", error);
-        this.setState({
-          isLoading: false,
-        });
-      });
-  };
-
   componentDidMount() {
-    const teamName = this.props.teamName;
-    const season = this.props.season;
-
-    let params = { team_name: teamName, season: season };
-    this.GetWinsAndLosses("get_win_and_loss_games", JSON.stringify(params));
+    
   }
 
   render() {
-    const wl = this.state.winsLosses[0];
+    const wl = this.state.winsLosses;
+
     if (wl === undefined) return;
 
     return (
