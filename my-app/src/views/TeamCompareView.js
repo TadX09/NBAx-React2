@@ -305,7 +305,7 @@ class TeamCompareView extends React.Component {
             games.forEach(game => {
               for (let i=0; i < stats.length; i++) {
               if (stats[i].GameID === game.GameID) {
-                 let gameM = {game:game,stats:stats[i].Stats,winAndLosses:stats[i].WinAndLosses}
+                 let gameM = {game:game,stats:stats[i].Stats,winAndLosses:stats[i].WinAndLosses,lastGameResults:stats[i].LastGameResults}
                  gamesMerge.push(gameM);
               }
               }
@@ -354,6 +354,7 @@ class TeamCompareView extends React.Component {
                    <WinAndLosses
                     winsLosses={obj.winAndLosses.HomeTeam[0]}
                   />
+                    {(obj.lastGameResults.HomeTeam.length > 0 ? obj.lastGameResults.HomeTeam[0].IsWin: -1)}
                 </div>
                 &nbsp; {obj.game.HomeTeam} Vs {obj.game.AwayTeam} &nbsp;
                 <div className="nbax-logo-winlose">
@@ -361,6 +362,7 @@ class TeamCompareView extends React.Component {
                   <WinAndLosses
                     winsLosses={obj.winAndLosses.AwayTeam[0]}
                   />
+                  {(obj.lastGameResults.AwayTeam.length > 0 ? obj.lastGameResults.AwayTeam[0].IsWin: -1)}
                 </div>
               </div>
               <div className="nbax-scores">
