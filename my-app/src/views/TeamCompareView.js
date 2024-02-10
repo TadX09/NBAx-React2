@@ -44,6 +44,7 @@ import WAS from "../assets/img/logosNBA/was";
 import LoaderScreen from "./Controls/LoadScreen";
 import Stats from "./Controls/Stats";
 import WinAndLosses from "./Controls/WinAndLosses";
+import Standings from "./Controls/Standings";
 
 /**
  * Componente Base para comparar equipos
@@ -305,7 +306,7 @@ class TeamCompareView extends React.Component {
             games.forEach(game => {
               for (let i=0; i < stats.length; i++) {
               if (stats[i].GameID === game.GameID) {
-                 let gameM = {game:game,stats:stats[i].Stats,winAndLosses:stats[i].WinAndLosses,lastGameResults:stats[i].LastGameResults}
+                 let gameM = {game:game,stats:stats[i].Stats,winAndLosses:stats[i].WinAndLosses,lastGameResults:stats[i].LastGameResults,standings:stats[i].Standings}
                  gamesMerge.push(gameM);
               }
               }
@@ -355,6 +356,7 @@ class TeamCompareView extends React.Component {
                     winsLosses={obj.winAndLosses.HomeTeam[0]}
                   />
                     {(obj.lastGameResults.HomeTeam.length > 0 ? obj.lastGameResults.HomeTeam[0].IsWin: -1)}
+                    
                 </div>
                 &nbsp; {obj.game.HomeTeam} Vs {obj.game.AwayTeam} &nbsp;
                 <div className="nbax-logo-winlose">
@@ -376,8 +378,10 @@ class TeamCompareView extends React.Component {
             <Card.Text style={{ backgroundColor: "#3c3c3c" }}></Card.Text>
             <div className="nbax_stats">
               <Stats stats={obj.stats}/>
+              <br/>
+              <Standings standings={obj.standings}/>
             </div> 
-        
+          
           </Card.Body>
         </Card>
       </Col>

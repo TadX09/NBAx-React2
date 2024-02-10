@@ -1,9 +1,4 @@
 import React from "react";
-import { Row, Col, Card, Button, Container } from "react-bootstrap";
-import CardHeader from "react-bootstrap/esm/CardHeader";
-import { callApi } from "../../utils/utils";
-import { config } from "../../utils/config";
-
 
 /**
  * STATS
@@ -51,7 +46,7 @@ class Stats extends React.Component {
     return (
     <div>
 
-      <table className="tg">
+      {/* <table className="tg">
       <thead>
         <tr>
           <th className="tg-a4lg">Team</th>
@@ -65,7 +60,7 @@ class Stats extends React.Component {
         {StatsComponentTable}
       </tbody>
       </table>
-      <hr />
+      <hr /> */}
       <table className="tg" style={{display:"inline"}}>
       <thead>
         <tr>
