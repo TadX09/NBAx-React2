@@ -299,7 +299,7 @@ class TeamCompareView extends React.Component {
     this.UpdateData("games_today", JSON.stringify(params),(response)=>{
       this.GetData("games_today", JSON.stringify(params),(games)=>{
         // Get Stats 
-          let params ={games}
+          let params ={ date:date };
           this.GetData("stats", JSON.stringify(params),(stats)=>{
               // merge with games
             let gamesMerge =[];
