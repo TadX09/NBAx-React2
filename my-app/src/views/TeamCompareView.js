@@ -294,8 +294,8 @@ class TeamCompareView extends React.Component {
   };
 
   LoadGamesToday=()=>{
-    //this.GetGames(getTodayFormatDate());
-    this.GetGames('2024-02-15');
+    this.GetGames(getTodayFormatDate());
+    //this.GetGames('2024-02-15');
   };
 
   GetGames =(date)=>{
@@ -318,7 +318,7 @@ class TeamCompareView extends React.Component {
             });
 
            console.log(gamesMerge);
-          this.setState({ gamesArr:gamesMerge});
+          this.setState({ gamesArr:gamesMerge, asserts:0});
 
           
      });
