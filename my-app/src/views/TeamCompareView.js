@@ -89,7 +89,7 @@ const SEASONSYEARS = [
   "2022",
   "2023"
 ];
-
+let countAsserts = 0;
 class TeamCompareView extends React.Component {
   constructor(props) {
     super(props);
@@ -99,8 +99,11 @@ class TeamCompareView extends React.Component {
       gamesArr: [],
       isLoading: false,
       isLoading2: false,
-      date: new Date()
+      date: new Date(),
+      asserts: 0
     };
+
+    this.componentDOMref = React.createRef();
   }
 
   GetData = (dataType, params, callback) => {
@@ -291,10 +294,12 @@ class TeamCompareView extends React.Component {
   };
 
   LoadGamesToday=()=>{
-    this.GetGames(getTodayFormatDate());
+    //this.GetGames(getTodayFormatDate());
+    this.GetGames('2024-02-15');
   };
 
   GetGames =(date)=>{
+    countAsserts = 0;
     let params = { date:date };
     this.UpdateData("games_today", JSON.stringify(params),(response)=>{
       this.GetData("games_today", JSON.stringify(params),(games)=>{
@@ -322,6 +327,11 @@ class TeamCompareView extends React.Component {
   }); 
   }
 
+  FuncCountAsserts = (assert)=>{
+    countAsserts = countAsserts  + assert 
+    this.setState({asserts: countAsserts});
+  };
+  
   // onSelectSeason = (data) => {
   //   this.setState({ games: [] });
   //   let params = { date:  getTodayFromDateObject(this.state.date)};
@@ -334,15 +344,16 @@ class TeamCompareView extends React.Component {
   // };
 
   componentDidMount() {
+   
     this.LoadGamesToday();
   }
  
   render() {
     let games = this.state.gamesArr;
 
-    const GamesComponent = games.map((obj) => (
+    const GamesComponent = games.map((obj,index) => (
       <Col key={obj.game.GameID}>
-        <Card className="nbax-game-card">
+        <Card className="nbax-game-card" >
           <Card.Header></Card.Header>
           <Card.Body>
             <Card.Title>
@@ -355,7 +366,8 @@ class TeamCompareView extends React.Component {
                    <WinAndLosses
                     winsLosses={obj.winAndLosses.HomeTeam[0]}
                   />
-                    {(obj.lastGameResults.HomeTeam.length > 0 ? obj.lastGameResults.HomeTeam[0].IsWin: -1)}
+                    {/* Se muestra solo para hoy */}
+                    {(getTodayFormatDate() === this.state.date)?(obj.lastGameResults.HomeTeam.length > 0 ? obj.lastGameResults.HomeTeam[0].IsWin: -1):''}
                     
                 </div>
                 &nbsp; {obj.game.HomeTeam} Vs {obj.game.AwayTeam} &nbsp;
@@ -364,7 +376,8 @@ class TeamCompareView extends React.Component {
                   <WinAndLosses
                     winsLosses={obj.winAndLosses.AwayTeam[0]}
                   />
-                  {(obj.lastGameResults.AwayTeam.length > 0 ? obj.lastGameResults.AwayTeam[0].IsWin: -1)}
+                   {/* Se muestra solo para hoy */}
+                  {(getTodayFormatDate() === this.state.date)?(obj.lastGameResults.AwayTeam.length > 0 ? obj.lastGameResults.AwayTeam[0].IsWin: -1):''}
                 </div>
               </div>
               <div className="nbax-scores">
@@ -374,10 +387,14 @@ class TeamCompareView extends React.Component {
               <div className="nbax-dates">
                 {obj.game.DateTime} &nbsp;&nbsp;| &nbsp;&nbsp;{obj.game.Status}
               </div>
+
+              <div className="nbax-dates">
+                {"Total Points: "} {obj.game.HomeTeamScore + obj.game.AwayTeamScore}
+              </div>
             </Card.Title>
             <Card.Text style={{ backgroundColor: "#3c3c3c" }}></Card.Text>
             <div className="nbax_stats">
-              <Stats stats={obj.stats}/>
+              <Stats stats={obj.stats} resHome ={obj.game.HomeTeamScore} resAway ={obj.game.AwayTeamScore}  componentDOM = {this.componentDOMref} indexComponent = {index} countAsserts={this.FuncCountAsserts} />
               <br/>
               <Standings standings={obj.standings}/>
             </div> 
@@ -429,18 +446,18 @@ class TeamCompareView extends React.Component {
                       name="season"
                       placeholder="season"
                       data={SEASONSYEARS}
-                      onSelect={this.onSelectSeason}
+                      onSelect={this.onSelectSeason} 
                     />
-                    {/* <div className="nbax-evaluator">
-                      EP: {this.state.evalData}% TSG:{" "}
-                      {localStorage.getItem("hits")} / {games.length}
-                    </div> */}
+                    <div className="nbax-evaluator">
+                      EP: {Number((this.state.asserts/games.length) * 100).toFixed(0)}% &nbsp;&nbsp;| &nbsp;&nbsp; TSG:{" "}
+                      {this.state.asserts} / {games.length}
+                    </div>
                   </div>
                 </Card.Body>
               </Card>
             </Col>
           </Row>
-          <Row className="nbax-games-cont">{GamesComponent}</Row>
+          <Row className="nbax-games-cont" ref={this.componentDOMref}>{GamesComponent}</Row>
         </Container>
         {/* <ModalDemo /> */}
       </div>

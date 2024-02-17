@@ -81,16 +81,6 @@ function callApi(
   return caller(url, method, getDefaultHeader(), data, options, httpCall);
 }
 
-function callApi2( 
-  method,
-  data = {},
-  headers = getDefaultHeader()
-){
-  method = method.toUpperCase();
-
- 
-}
-
 function getTodayFormatDate(){
   let objectDate = new Date();
  
@@ -121,4 +111,4 @@ function getTomorrow(){
   return getTodayFromDateObject(tomorrow);
 }
 
-export { callApi,callApi2,getTodayFormatDate,getTodayFromDateObject,getTomorrow};
+export { callApi,getTodayFormatDate,getTodayFromDateObject,getTomorrow};

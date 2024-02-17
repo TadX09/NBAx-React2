@@ -106,12 +106,13 @@
 }
 .nbax-evaluator{
   display: flex;
-  color: #04ff00;
-  font-size: 17px;
+  color: #c4c5c4;
+  font-size: 12px;
   margin-left: 10px;
   align-items: center;
   flex-direction: column;
   justify-content: flex-end;
+  margin-top: 10px;
 }
 /* .nbax-past-games-cont{
   display: flex;
@@ -127,6 +128,9 @@
   padding: 5px;
   min-width: 250px;
   min-height: 100px;
+  box-shadow: -1px 7px 5px -5px rgba(24, 24, 24, 0.75);
+-webkit-box-shadow: -1px 7px 5px -5px rgba(24, 24, 24, 0.75);
+-moz-box-shadow: -1px 7px 5px -5px rgba(24, 24, 24, 0.75);
 }
 /* .nbax-past-game-card {
   background-color: #363636;
@@ -173,6 +177,9 @@
 }
 .nbax_stats {
   display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 10px;
 }
 .table_tr_color {
   background-color: #5f5f68;
@@ -243,13 +250,17 @@
   font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
 .tg th{background-color:#f0f0f0;border-color:#ccc;border-style:none;border-width:1px;color:#333;
   font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-4hcd{background-color:#303030;border-color:#858282;color:#ffffff;font-family:Tahoma, Geneva, sans-serif !important;
-  font-size:14px;text-align:left;vertical-align:top}
-.tg .tg-a4lg{background-color: #616060;
-  border-color: #c0c0c0;
+.tg .tg-4hcd{    background-color: #303030;
+  border-color: #858282;
   color: #ffffff;
-  font-family: Tahoma, Geneva, sans-serif !important;
-  font-size: 14px;
-  font-weight: bold;
+  font-family: monospace !important;
   text-align: left;
-  vertical-align: top;}
+  vertical-align: top;
+  padding: 5px;}
+.tg .tg-a4lg{    background-color: #303030;
+  border-color: #858282;
+  color: #ffffff;
+  font-family: monospace !important;
+  text-align: left;
+  vertical-align: top;
+  padding: 5px;}
