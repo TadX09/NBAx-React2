@@ -294,14 +294,23 @@ class TeamCompareView extends React.Component {
   };
 
   LoadGamesToday=()=>{
-    this.GetGames(getTodayFormatDate());
+    this.UpdateGames(getTodayFromDateObject(this.state.date));
     //this.GetGames('2024-02-15');
+  };
+
+  UpdateGames = (date) =>{
+    
+    let params = { date:date };
+    this.UpdateData("games_today", JSON.stringify(params),(response)=>{
+      this.GetGames(date);
+      
+    });
   };
 
   GetGames =(date)=>{
     countAsserts = 0;
     let params = { date:date };
-    this.UpdateData("games_today", JSON.stringify(params),(response)=>{
+    //this.UpdateData("games_today", JSON.stringify(params),(response)=>{
       this.GetData("games_today", JSON.stringify(params),(games)=>{
         // Get Stats 
           let params ={ date:date };
@@ -324,7 +333,7 @@ class TeamCompareView extends React.Component {
      });
 
     }); 
-  }); 
+ // }); 
   }
 
   FuncCountAsserts = (assert)=>{
