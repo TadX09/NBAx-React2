@@ -320,7 +320,12 @@ class TeamCompareView extends React.Component {
             games.forEach(game => {
               for (let i=0; i < stats.length; i++) {
               if (stats[i].GameID === game.GameID) {
-                 let gameM = {game:game,stats:stats[i].Stats,winAndLosses:stats[i].WinAndLosses,lastGameResults:stats[i].LastGameResults,standings:stats[i].Standings}
+                 let gameM = {game:game,stats:stats[i].Stats,
+                  winAndLosses:stats[i].WinAndLosses,
+                  lastGameResults:stats[i].LastGameResults,
+                  standings:stats[i].Standings,
+                  backToBack:stats[i].BackToBack
+                }
                  gamesMerge.push(gameM);
               }
               }
@@ -376,8 +381,10 @@ class TeamCompareView extends React.Component {
                     winsLosses={obj.winAndLosses.HomeTeam[0]}
                   />
                     {/* Se muestra solo para hoy */}
-                    {(getTodayFormatDate() === this.state.date)?(obj.lastGameResults.HomeTeam.length > 0 ? obj.lastGameResults.HomeTeam[0].IsWin: -1):''}
-                    
+                    {/* {(getTodayFormatDate() === getTodayFromDateObject(this.state.date))?(obj.lastGameResults.HomeTeam.length > 0 ? obj.lastGameResults.HomeTeam[0].IsWin: -1):''}
+                    <br/> */}
+                    {(getTodayFormatDate() === getTodayFromDateObject(this.state.date))?(obj.backToBack.HomeTeam.length > 0 ?  'B2B: ' + obj.backToBack.HomeTeam[0].JugoAyer: -1):''}
+                   
                 </div>
                 &nbsp; {obj.game.HomeTeam} Vs {obj.game.AwayTeam} &nbsp;
                 <div className="nbax-logo-winlose">
@@ -386,7 +393,9 @@ class TeamCompareView extends React.Component {
                     winsLosses={obj.winAndLosses.AwayTeam[0]}
                   />
                    {/* Se muestra solo para hoy */}
-                  {(getTodayFormatDate() === this.state.date)?(obj.lastGameResults.AwayTeam.length > 0 ? obj.lastGameResults.AwayTeam[0].IsWin: -1):''}
+                  {/* {(getTodayFormatDate() === getTodayFromDateObject(this.state.date))?(obj.lastGameResults.AwayTeam.length > 0 ? obj.lastGameResults.AwayTeam[0].IsWin: -1):''}
+                  <br/> */}
+                 {(getTodayFormatDate() === getTodayFromDateObject(this.state.date))?(obj.backToBack.AwayTeam.length > 0 ? 'B2B: ' + obj.backToBack.AwayTeam[0].JugoAyer: -1):''}
                 </div>
               </div>
               <div className="nbax-scores">
@@ -442,7 +451,7 @@ class TeamCompareView extends React.Component {
                       }}
                       className="nbax_btn1"
                     >
-                      Get Today's Games
+                      Update Games For:
                     </Button>
 
                     <DatePicker
@@ -450,13 +459,13 @@ class TeamCompareView extends React.Component {
                       onSelect={this.onSelectDate}
                     />
 
-                    <Combobox
+                    {/* <Combobox
                       defaultValue={this.state.season}
                       name="season"
                       placeholder="season"
                       data={SEASONSYEARS}
                       onSelect={this.onSelectSeason} 
-                    />
+                    /> */}
                     <div className="nbax-evaluator">
                       EP: {Number((this.state.asserts/games.length) * 100).toFixed(0)}% &nbsp;&nbsp;| &nbsp;&nbsp; TSG:{" "}
                       {this.state.asserts} / {games.length}

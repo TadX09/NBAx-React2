@@ -49,6 +49,9 @@ class Standings extends React.Component {
       <tr>
       <td className="tg-4hcd" style={{fontSize:"16px",fontWeight:"bold",display:"flex",justifyContent:"center"}}>{Number(mediaPointsHome + mediaPointsAway).toFixed(2)}</td>
     </tr>
+    <tr>
+      <td className="tg-4hcd" style={{fontSize:"16px",fontWeight:"bold",display:"flex",justifyContent:"center"}}>{Number(mediaPointsHome).toFixed(2)}  + {Number(mediaPointsAway).toFixed(2)}</td>
+    </tr>
       </tbody>
       </table>
 
