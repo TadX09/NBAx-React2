@@ -32,8 +32,18 @@ class Standings extends React.Component {
     let totalPointsAway = standings.AwayTeam[0].PointsPerGameFor;
     let totalPointsReciveAway = standings.AwayTeam[0].PointsPerGameAgainst;
 
-      // Promedio o Media de Puntos
-      let mediaPointsAway = (totalPointsAway + totalPointsReciveAway)/2;
+    // Promedio o Media de Puntos
+    let mediaPointsAway = (totalPointsAway + totalPointsReciveAway)/2;
+
+    // Board
+    let TP = Math.round(Number(mediaPointsHome + mediaPointsAway).toFixed(2));
+    let TP_Home = Math.round(Number(mediaPointsHome).toFixed(2));
+    let TP_Away = Math.round(Number(mediaPointsAway).toFixed(2));
+
+    let factor = Math.abs(TP_Home - TP_Away);
+
+    let OverTP = TP - factor;
+    let UnderTP = TP + factor;
 
     return (
     <div>
@@ -47,10 +57,10 @@ class Standings extends React.Component {
       </thead>
       <tbody>
       <tr>
-      <td className="tg-4hcd" style={{fontSize:"16px",fontWeight:"bold",display:"flex",justifyContent:"center"}}>{Number(mediaPointsHome + mediaPointsAway).toFixed(2)}</td>
+      <td className="tg-4hcd" style={{fontSize:"16px",fontWeight:"bold",display:"flex",justifyContent:"center"}}>{TP} | O:{OverTP} U:{UnderTP}</td>
     </tr>
     <tr>
-      <td className="tg-4hcd" style={{fontSize:"16px",fontWeight:"bold",display:"flex",justifyContent:"center"}}>{Number(mediaPointsHome).toFixed(2)}  + {Number(mediaPointsAway).toFixed(2)}</td>
+      <td className="tg-4hcd" style={{fontSize:"16px",fontWeight:"bold",display:"flex",justifyContent:"center"}}>{TP_Home}  + {TP_Away}</td>
     </tr>
       </tbody>
       </table>
