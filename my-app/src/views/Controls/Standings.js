@@ -10,11 +10,40 @@ class Standings extends React.Component {
 
     this.state = {
       standings: this.props.standings,
+        //Equipo Home
+      totalPointsHome : this.props.standings.HomeTeam[0].PointsPerGameFor,
+      totalPointsReciveHome : this.props.standings.HomeTeam[0].PointsPerGameAgainst,
+      //Equipo Away
+      totalPointsAway : this.props.standings.AwayTeam[0].PointsPerGameFor,
+      totalPointsReciveAway : this.props.standings.AwayTeam[0].PointsPerGameAgainst,
+      
+      TP:0,
+      TP_Home:0,
+      TP_Away:0,
+      UnderTP:0,
+      OverTP:0,
+      FinalResult:0
     };
   }
 
   componentDidMount() {
-   
+    let mediaPointsHome = (this.state.totalPointsHome + this.state.totalPointsReciveHome)/2;
+    
+    let mediaPointsAway = (this.state.totalPointsAway + this.state.totalPointsReciveAway)/2;
+  
+     // Board
+     let TP = Math.round(Number(mediaPointsHome + mediaPointsAway).toFixed(2));
+     let TP_Home = Math.round(Number(mediaPointsHome).toFixed(2));
+     let TP_Away = Math.round(Number(mediaPointsAway).toFixed(2));
+ 
+     let factor = Math.abs(TP_Home - TP_Away);
+ 
+     let OverTP = TP - factor;
+     let UnderTP = TP + factor;
+ 
+     let FinalResult  = this.props.resHome + this.props.resAway;
+
+    this.setState({TP,TP_Home,TP_Away,OverTP,UnderTP,FinalResult});
   }
 
   render() {
@@ -22,28 +51,51 @@ class Standings extends React.Component {
 
     // Calcula Totales
     //Equipo Home
-    let totalPointsHome = standings.HomeTeam[0].PointsPerGameFor;
-    let totalPointsReciveHome = standings.HomeTeam[0].PointsPerGameAgainst;
+    // let totalPointsHome = standings.HomeTeam[0].PointsPerGameFor;
+    // let totalPointsReciveHome = standings.HomeTeam[0].PointsPerGameAgainst;
 
     // Promedio o Media de Puntos
-    let mediaPointsHome = (totalPointsHome + totalPointsReciveHome)/2;
+    //let mediaPointsHome = (totalPointsHome + totalPointsReciveHome)/2;
  
     //Equipo Away
-    let totalPointsAway = standings.AwayTeam[0].PointsPerGameFor;
-    let totalPointsReciveAway = standings.AwayTeam[0].PointsPerGameAgainst;
+    // let totalPointsAway = standings.AwayTeam[0].PointsPerGameFor;
+    // let totalPointsReciveAway = standings.AwayTeam[0].PointsPerGameAgainst;
 
     // Promedio o Media de Puntos
-    let mediaPointsAway = (totalPointsAway + totalPointsReciveAway)/2;
+    //let mediaPointsAway = (totalPointsAway + totalPointsReciveAway)/2;
 
     // Board
-    let TP = Math.round(Number(mediaPointsHome + mediaPointsAway).toFixed(2));
-    let TP_Home = Math.round(Number(mediaPointsHome).toFixed(2));
-    let TP_Away = Math.round(Number(mediaPointsAway).toFixed(2));
+    // let TP = Math.round(Number(mediaPointsHome + mediaPointsAway).toFixed(2));
+    // let TP_Home = Math.round(Number(mediaPointsHome).toFixed(2));
+    // let TP_Away = Math.round(Number(mediaPointsAway).toFixed(2));
 
-    let factor = Math.abs(TP_Home - TP_Away);
+    // let factor = Math.abs(TP_Home - TP_Away);
 
-    let OverTP = TP - factor;
-    let UnderTP = TP + factor;
+    // let OverTP = TP - factor;
+    // let UnderTP = TP + factor;
+
+    // let FinalResult  = this.props.resHome + this.props.resAway;
+
+    // Evaluation
+    let colorUnder='';
+    let colorOver='';
+
+    if(this.state.FinalResult > 0){
+        if(this.state.FinalResult < this.state.UnderTP)
+        {
+          colorUnder = 'c_blue';
+        }else{
+          colorUnder = 'c_red';
+        }
+        
+        if (this.state.FinalResult > this.state.OverTP)
+        {
+          colorOver='c_blue'
+        }
+        else{
+          colorOver = ''
+        }
+    }
 
     return (
     <div>
@@ -57,10 +109,18 @@ class Standings extends React.Component {
       </thead>
       <tbody>
       <tr>
-      <td className="tg-4hcd" style={{fontSize:"16px",fontWeight:"bold",display:"flex",justifyContent:"center"}}>{TP} | O:{OverTP} U:{UnderTP}</td>
+      <td className="tg-4hcd" style={{fontSize:"16px",fontWeight:"bold",display:"flex",justifyContent:"center"}}> 
+      <tr>TP:{this.state.TP}|&nbsp;</tr>
+      <tr className={colorOver}>O:{this.state.OverTP}&nbsp;</tr>
+      <tr className={colorUnder}>U:{this.state.UnderTP}</tr>
+      </td>
     </tr>
     <tr>
-      <td className="tg-4hcd" style={{fontSize:"16px",fontWeight:"bold",display:"flex",justifyContent:"center"}}>{TP_Home}  + {TP_Away}</td>
+      <td className="tg-4hcd" style={{fontSize:"16px",fontWeight:"bold",display:"flex",justifyContent:"center"}}>
+      <tr>H:{this.state.TP_Home} &nbsp;</tr>
+      <tr>V:{this.state.TP_Away}&nbsp;</tr>
+       </td>
+      
     </tr>
       </tbody>
       </table>

@@ -414,7 +414,7 @@ class TeamCompareView extends React.Component {
             <div className="nbax_stats">
               <Stats stats={obj.stats} resHome ={obj.game.HomeTeamScore} resAway ={obj.game.AwayTeamScore}  componentDOM = {this.componentDOMref} indexComponent = {index} countAsserts={this.FuncCountAsserts} />
               <br/>
-              <Standings standings={obj.standings}/>
+              <Standings standings={obj.standings} resHome ={obj.game.HomeTeamScore} resAway ={obj.game.AwayTeamScore}/>
             </div> 
           
           </Card.Body>
