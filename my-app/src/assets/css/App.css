@@ -204,6 +204,10 @@
   background-color: orangered  !important;
 
 }
+.c_yellow {
+  background-color: rgb(238, 255, 0)  !important;
+  color: #282c34;
+}
 .c_blue {
   background-color: blue  !important;
  

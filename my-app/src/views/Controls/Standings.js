@@ -4,6 +4,7 @@ import React from "react";
  * STANDINGS
  * @component
  */
+const TOTAL_MAX_POINTS = 232;
 class Standings extends React.Component {
   constructor(props) {
     super(props);
@@ -79,6 +80,7 @@ class Standings extends React.Component {
     // Evaluation
     let colorUnder='';
     let colorOver='';
+    let colorMaxPoints ='';
 
     if(this.state.FinalResult > 0){
         if(this.state.FinalResult < this.state.UnderTP)
@@ -97,6 +99,12 @@ class Standings extends React.Component {
         }
     }
 
+    if(this.state.TP >= TOTAL_MAX_POINTS ){
+      colorMaxPoints ='c_yellow';
+    }else{
+      colorMaxPoints ='';
+    }
+
     return (
     <div>
 
@@ -110,14 +118,14 @@ class Standings extends React.Component {
       <tbody>
       <tr>
       <td className="tg-4hcd" style={{fontSize:"16px",fontWeight:"bold",display:"flex",justifyContent:"center"}}> 
-      <tr>TP:{this.state.TP}|&nbsp;</tr>
-      <tr className={colorOver}>O:{this.state.OverTP}&nbsp;</tr>
-      <tr className={colorUnder}>U:{this.state.UnderTP}</tr>
+      <tr className={colorMaxPoints}>TP:{this.state.TP}</tr>|
+      <tr className={colorOver}>O:{this.state.OverTP}</tr>|
+      <tr className={colorUnder}>U:{this.state.UnderTP}</tr>|
       </td>
     </tr>
     <tr>
       <td className="tg-4hcd" style={{fontSize:"16px",fontWeight:"bold",display:"flex",justifyContent:"center"}}>
-      <tr>H:{this.state.TP_Home} &nbsp;</tr>
+      <tr>H:{this.state.TP_Home}&nbsp;</tr>
       <tr>V:{this.state.TP_Away}&nbsp;</tr>
        </td>
       
