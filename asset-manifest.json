@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/NBAx-React2/static/css/main.a27a626c.css",
-    "main.js": "/NBAx-React2/static/js/main.18e2bc4e.js",
+    "main.js": "/NBAx-React2/static/js/main.16ff95b4.js",
     "static/media/nbax_regular.woff2": "/NBAx-React2/static/media/nbax_regular.61aea2ad9f7e9eb613ac.woff2",
     "static/media/logo.svg": "/NBAx-React2/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "static/media/load.svg": "/NBAx-React2/static/media/load.842c5f50335fe8bd001e58741275308a.svg",
     "index.html": "/NBAx-React2/index.html",
     "main.a27a626c.css.map": "/NBAx-React2/static/css/main.a27a626c.css.map",
-    "main.18e2bc4e.js.map": "/NBAx-React2/static/js/main.18e2bc4e.js.map"
+    "main.16ff95b4.js.map": "/NBAx-React2/static/js/main.16ff95b4.js.map"
   },
   "entrypoints": [
     "static/css/main.a27a626c.css",
-    "static/js/main.18e2bc4e.js"
+    "static/js/main.16ff95b4.js"
   ]
 }
