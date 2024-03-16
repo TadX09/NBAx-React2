@@ -36,7 +36,7 @@ class Standings extends React.Component {
     let mediaPointsAway = this.state.totalPointsAway;//(this.state.totalPointsAway + this.state.totalPointsReciveAway)/2;
   
      // Board
-     let TP = mediaPointsHome + mediaPointsAway - 6;
+     let TP = mediaPointsHome + mediaPointsAway - 3.5;
      let TP_Home = mediaPointsHome;
      let TP_Away =mediaPointsAway;
  
@@ -112,13 +112,14 @@ class Standings extends React.Component {
       colorMaxPoints ='';
     }
 
+     
     return (
     <div>
 
       <table className="tg">
       <thead>
         <tr>
-          <th className="tg-a4lg">Total Points | Diff:{this.state.DiffTP}</th>
+          <th className="tg-a4lg">Total Points | Diff:{this.state.DiffTP<0?" + ":" - "}{Math.abs(this.state.DiffTP)}</th>
         </tr>
      
       </thead>
@@ -132,10 +133,16 @@ class Standings extends React.Component {
     </tr>
     <tr>
       <td className="tg-4hcd" style={{fontSize:"13px",fontWeight:"bold",display:"flex",justifyContent:"center"}}>
-      <tr>H:{this.state.TP_Home}&nbsp;DH:{this.state.DiffHome}&nbsp;|&nbsp;</tr>
-      <tr>V:{this.state.TP_Away}&nbsp;DV:{this.state.DiffVisitor}</tr>
+      <tr>H:{this.state.TP_Home}&nbsp;|&nbsp;</tr>
+      <tr>DH:{this.state.DiffHome < 0?" + ":" - "}{Math.abs(this.state.DiffHome)}&nbsp;|&nbsp;</tr>
+      <tr>V:{this.state.TP_Away}&nbsp;|&nbsp;</tr>
+      <tr>DV:{this.state.DiffVisitor < 0?" + ":" - "}{Math.abs(this.state.DiffVisitor)}</tr>
        </td>
-      
+       <td className="tg-4hcd" style={{fontSize:"13px",fontWeight:"bold",display:"flex",justifyContent:"center"}}>
+      <tr>ppH:{this.state.totalPointsReciveHome}&nbsp;|&nbsp;</tr>
+      <tr>ppV:{this.state.totalPointsReciveAway}&nbsp;</tr>
+     
+       </td>
     </tr>
       </tbody>
       </table>

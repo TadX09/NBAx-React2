@@ -324,7 +324,8 @@ class TeamCompareView extends React.Component {
                   winAndLosses:stats[i].WinAndLosses,
                   lastGameResults:stats[i].LastGameResults,
                   standings:stats[i].Standings,
-                  backToBack:stats[i].BackToBack
+                  backToBack:stats[i].BackToBack,
+                  isMaxPoints:stats[i].IsMaxPoints
                 }
                  gamesMerge.push(gameM);
               }
@@ -376,7 +377,10 @@ class TeamCompareView extends React.Component {
               </div>
               <div className="nbax-vs-teams">
                 <div className="nbax-logo-winlose">
-                  {this.GetLogo(obj.game.HomeTeam)}
+                  <div className={` ${obj.isMaxPoints.HomeTeam == 0 ? "nbax-max-points-cont-home2" : "nbax-max-points-cont-home"}`}>
+                    <div className={` ${obj.isMaxPoints.HomeTeam == 0 ? "d-none" : "nbax-max-points-img"}`}></div>
+                    {this.GetLogo(obj.game.HomeTeam)}
+                  </div>
                    <WinAndLosses
                     winsLosses={obj.winAndLosses.HomeTeam[0]}
                   />
@@ -388,7 +392,11 @@ class TeamCompareView extends React.Component {
                 </div>
                 &nbsp; {obj.game.HomeTeam} Vs {obj.game.AwayTeam} &nbsp;
                 <div className="nbax-logo-winlose">
-                  {this.GetLogo(obj.game.AwayTeam)}
+                  
+                <div className={`${obj.isMaxPoints.AwayTeam == 0 ? "nbax-max-points-cont-away2" : "nbax-max-points-cont-away"}`}>
+                  {this.GetLogo(obj.game.AwayTeam)} 
+                  <div className={`${obj.isMaxPoints.AwayTeam == 0 ? "d-none" : "nbax-max-points-img"}`}></div>
+                </div>
                   <WinAndLosses
                     winsLosses={obj.winAndLosses.AwayTeam[0]}
                   />
@@ -414,7 +422,7 @@ class TeamCompareView extends React.Component {
             <div className="nbax_stats">
               <Stats stats={obj.stats} resHome ={obj.game.HomeTeamScore} resAway ={obj.game.AwayTeamScore}  componentDOM = {this.componentDOMref} indexComponent = {index} countAsserts={this.FuncCountAsserts} />
               <br/>
-              <Standings standings={obj.standings} resHome ={obj.game.HomeTeamScore} resAway ={obj.game.AwayTeamScore}/>
+              <Standings standings={obj.standings} resHome ={obj.game.HomeTeamScore} resAway ={obj.game.AwayTeamScore} mpH = {obj.isMaxPoints.HomeTeam}  mpA = {obj.isMaxPoints.AwayTeam}/>
             </div> 
           
           </Card.Body>
